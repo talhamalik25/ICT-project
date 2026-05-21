@@ -1,0 +1,14 @@
+{
+  "name": "iqra-career-roadmap",
+  "private": true,
+  "description": "Iqra University M9 — IQRA Career Roadmap",
+  "workspaces": [
+    "ICT project"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w ict-project",
+    "build": "npm run build -w ict-project",
+    "preview": "npm run preview -w ict-project",
+    "lint": "npm run lint -w ict-project"
+  }
+}
