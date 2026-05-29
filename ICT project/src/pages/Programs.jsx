@@ -2,13 +2,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Note: Navbar and Footer are rendered globally inside src/App.jsx. 
-// They are imported here to satisfy standard import practices and future decoupling.
-// eslint-disable-next-line no-unused-vars
-import Navbar from '../components/Navbar';
-// eslint-disable-next-line no-unused-vars
-import Footer from '../components/Footer';
-
 // 7 Undergraduate Programs Data
 const undergraduatePrograms = [
   {
@@ -338,12 +331,12 @@ export default function Programs() {
                     </div>
 
                     <Link 
-                      to="/roadmaps"
-                      style={{ backgroundColor: prog.colorAccent }}
-                      className="w-full mt-2 text-center inline-block text-white font-bold rounded-lg py-2.5 px-5 text-sm shadow-md transition-opacity hover:opacity-90 active:scale-[0.98]"
-                    >
-                      View Roadmap →
-                    </Link>
+                    to="/"
+                    style={{ backgroundColor: prog.colorAccent }}
+                    className="w-full mt-2 text-center inline-block text-white font-bold rounded-lg py-2.5 px-5 text-sm shadow-md transition-opacity hover:opacity-90 active:scale-[0.98]"
+                  >
+                    View Roadmap →
+                  </Link>
                   </div>
                 </motion.div>
               ))}
@@ -638,11 +631,11 @@ export default function Programs() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <Link 
-                    to="/roadmaps" 
-                    className="inline-flex items-center justify-center bg-gold hover:bg-yellow-500 text-text font-bold rounded-[10px] px-9 py-3.5 shadow-lg shadow-gold/20 transition-all duration-200"
-                  >
-                    View Roadmaps
-                  </Link>
+                  to="/" 
+                  className="inline-flex items-center justify-center bg-gold hover:bg-yellow-500 text-text font-bold rounded-[10px] px-9 py-3.5 shadow-lg shadow-gold/20 transition-all duration-200"
+                >
+                  View Roadmaps
+                </Link>
                 </motion.div>
                 
                 <motion.div

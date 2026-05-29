@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
 import logo from '../assets/logo.png';
 
 const links = [
@@ -13,6 +12,7 @@ const links = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <motion.header
@@ -24,9 +24,8 @@ export default function Navbar() {
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-3">
-          <span className="">
-            <img src={logo} alt="logo" className="h-10 w-10" />
-          </span>
+          <img src={logo} alt="IQRA Career Roadmap" className="h-12" />
+
         </Link>
 
         <div className="hidden items-center gap-1 lg:flex">
@@ -34,14 +33,11 @@ export default function Navbar() {
             <Link
               key={link.to}
               to={link.to}
-              className="group px-3 py-2 text-sm font-medium text-[#0A0A1A] transition-all duration-250 hover:text-[#003087]"
-              style={{ borderBottom: '2px solid transparent' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderBottomColor = '#003087';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderBottomColor = 'transparent';
-              }}
+              className={`group px-3 py-2 text-sm font-medium transition-all duration-250 ${
+                location.pathname === link.to
+                  ? 'text-[#003087] font-bold border-b-2 border-[#003087]'
+                  : 'text-[#0A0A1A] hover:text-[#003087] border-b-2 border-transparent'
+              }`}
             >
               {link.label}
             </Link>
@@ -81,7 +77,11 @@ export default function Navbar() {
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-3 py-3 text-[#4A5568] transition-all hover:bg-[#EBF3FF] hover:text-[#003087]"
+                  className={`rounded-lg px-3 py-3 transition-all ${
+                    location.pathname === link.to
+                      ? 'bg-[#EBF3FF] text-[#003087] font-bold'
+                      : 'text-[#4A5568] hover:bg-[#EBF3FF] hover:text-[#003087]'
+                  }`}
                 >
                   {link.label}
                 </Link>

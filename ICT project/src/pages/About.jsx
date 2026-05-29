@@ -1,13 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Note: Navbar and Footer are rendered globally inside src/App.jsx. 
-// They are imported here to satisfy standard import practices and future decoupling.
-// eslint-disable-next-line no-unused-vars
-import Navbar from '../components/Navbar';
-// eslint-disable-next-line no-unused-vars
-import Footer from '../components/Footer';
-
 export default function About() {
   // Motion configurations for reuse
   const fadeUp = {
@@ -224,7 +217,7 @@ export default function About() {
               {/* Dynamic Info Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 {[
-                  { icon: '📍', label: 'M9 Campus, Karachi, Pakistan', href: null },
+                  { icon: '📍', label: 'Iqra University, M9 Campus, Gadap Town, Karachi, Sindh 75030, Pakistan', href: null },
                   { icon: '📞', label: '+92 (021) 111-264-264', href: 'tel:+92021111264264' },
                   { icon: '🌐', label: 'iqra.edu.pk', href: 'https://iqra.edu.pk' },
                   { icon: '✉️', label: 'admissions@iqra.edu.pk', href: 'mailto:admissions@iqra.edu.pk' }
