@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import logo from '../assets/logo.png';
+
 const links = [
   { to: '/', label: 'Home' },
   { to: '/programs', label: 'Programs' },
@@ -23,7 +25,7 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-3">
           <span className="">
-          <img src="\assets\logo.png" alt="logo" className="h-10 w-10" />
+            <img src={logo} alt="logo" className="h-10 w-10" />
           </span>
         </Link>
 
