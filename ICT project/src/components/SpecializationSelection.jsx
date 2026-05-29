@@ -10,8 +10,7 @@ export default function SpecializationSelection() {
   const degree = getDegreeById(selectedDegreeId);
 
   const scroll = (dir) => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: dir * 280, behavior: 'smooth' });
+    scrollRef.current?.scrollBy({ left: dir * 280, behavior: 'smooth' });
   };
 
   const handleSelect = (id) => {
@@ -20,15 +19,14 @@ export default function SpecializationSelection() {
   };
 
   return (
-    <section id="specializations" className="relative overflow-hidden py-24 sm:py-32">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/[0.02] to-transparent" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="specializations" className="section-pad bg-[#F4F7FC]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
           badge="Specialization"
           title="Pick your career track"
           subtitle={
             degree
-              ? `Connected pathways under ${degree.name} — swipe to explore`
+              ? `Connected pathways under ${degree.name}`
               : 'Select a degree program first to reveal specialization tracks'
           }
         />
@@ -40,93 +38,76 @@ export default function SpecializationSelection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="glass flex flex-col items-center rounded-2xl border border-dashed border-slate-700/50 py-20"
+              className="card flex flex-col items-center border-dashed py-20"
             >
-              <span className="text-5xl opacity-50">◇</span>
-              <p className="mt-4 text-slate-400">Choose a degree to connect your roadmap</p>
-              <a href="#degrees" className="mt-6 text-sm font-medium text-cyan-400 hover:text-cyan-300">
+              <p className="text-[#4A5568]">Choose a degree to connect your roadmap</p>
+              <a href="#degrees" className="mt-6 text-sm font-semibold text-[#003087] hover:underline">
                 ← Browse programs
               </a>
             </motion.div>
           ) : (
             <motion.div key={degree.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="mb-4 hidden items-center justify-end gap-2 sm:flex">
-                <button type="button" onClick={() => scroll(-1)} className="glass rounded-lg px-3 py-2 text-slate-400 hover:text-white" aria-label="Previous">
+              <div className="mb-4 hidden justify-end gap-2 sm:flex">
+                <button type="button" onClick={() => scroll(-1)} className="btn-arrow">
                   ←
                 </button>
-                <button type="button" onClick={() => scroll(1)} className="glass rounded-lg px-3 py-2 text-slate-400 hover:text-white" aria-label="Next">
+                <button type="button" onClick={() => scroll(1)} className="btn-arrow">
                   →
                 </button>
               </div>
 
               <div className="relative">
-                <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-r from-[#020617] to-transparent" />
-                <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-l from-[#020617] to-transparent" />
+                <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-r from-[#F4F7FC] to-transparent" />
+                <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-l from-[#F4F7FC] to-transparent" />
 
-                <div
-                  ref={scrollRef}
-                  className="scrollbar-hide flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory"
-                >
+                <div ref={scrollRef} className="scrollbar-hide flex gap-4 overflow-x-auto pb-4 snap-x">
                   {degree.specializations.map((spec, i) => {
                     const selected = selectedSpecId === spec.id;
+                    const veryHigh = spec.industryDemand.includes('Very');
                     return (
                       <motion.button
                         key={spec.id}
                         type="button"
                         onClick={() => handleSelect(spec.id)}
-                        initial={{ opacity: 0, x: 24 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.06 }}
-                        whileHover={{ y: -4 }}
-                        className={`snap-center shrink-0 w-[min(100%,280px)] sm:w-[300px] rounded-2xl p-5 text-left transition-all ${
+                        transition={{ delay: i * 0.05 }}
+                        className={`snap-center shrink-0 w-[min(100%,280px)] sm:w-[300px] rounded-2xl p-5 text-left transition-all duration-250 ${
                           selected
-                            ? 'glass-strong ring-2 ring-cyan-400/50 shadow-lg shadow-cyan-500/10'
-                            : 'glass card-lift'
+                            ? 'border-2 border-[#003087] bg-white shadow-[0_8px_32px_rgba(0,48,135,0.15)] border-l-[5px]'
+                            : 'card'
                         }`}
                       >
-                        {i < degree.specializations.length - 1 && (
-                          <span className="absolute -right-2 top-1/2 hidden h-0.5 w-4 roadmap-line-h sm:block" style={{ left: '100%' }} />
-                        )}
                         <div className="flex items-center gap-3">
-                          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-800/80 text-2xl">
+                          <span className="icon-box flex h-12 w-12 items-center justify-center text-2xl text-white">
                             {spec.icon}
                           </span>
                           <div>
-                            <h3 className="font-display font-semibold text-white">{spec.name}</h3>
+                            <h3 className="font-bold text-[#003087]">{spec.name}</h3>
                             <span
-                              className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
-                                spec.industryDemand.includes('Very')
-                                  ? 'bg-emerald-500/15 text-emerald-400'
-                                  : 'bg-amber-500/15 text-amber-400'
+                              className={`mt-1 inline-block px-2 py-0.5 text-[10px] font-bold uppercase ${
+                                veryHigh ? 'badge-very-high' : 'badge-high'
                               }`}
                             >
                               {spec.industryDemand} demand
                             </span>
                           </div>
                         </div>
-                        <p className="mt-3 text-sm text-slate-400 line-clamp-2">{spec.description}</p>
-                        {selected && (
-                          <motion.span
-                            layoutId="spec-indicator"
-                            className="mt-4 block text-xs font-semibold text-cyan-400"
-                          >
-                            Active track →
-                          </motion.span>
-                        )}
+                        <p className="mt-3 text-sm text-[#4A5568] line-clamp-2">{spec.description}</p>
+                        {selected && <p className="mt-3 text-xs font-semibold text-[#0066CC]">Active track →</p>}
                       </motion.button>
                     );
                   })}
                 </div>
               </div>
 
-              <div className="mt-6 hidden h-1 overflow-hidden rounded-full bg-slate-800 sm:block">
+              <div className="mt-6 h-1.5 overflow-hidden rounded-full bg-[#D6E4F7]">
                 <motion.div
-                  className="h-full roadmap-line-h"
-                  initial={{ width: '0%' }}
+                  className="h-full progress-bar-blue rounded-full"
                   animate={{
-                    width: `${((degree.specializations.findIndex((s) => s.id === selectedSpecId) + 1) / degree.specializations.length) * 100}%`,
+                    width: `${((degree.specializations.findIndex((s) => s.id === selectedSpecId) + 1) / Math.max(degree.specializations.length, 1)) * 100}%`,
                   }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.4 }}
                 />
               </div>
             </motion.div>

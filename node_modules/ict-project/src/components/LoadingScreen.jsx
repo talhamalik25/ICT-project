@@ -3,36 +3,22 @@ import { motion } from 'framer-motion';
 export default function LoadingScreen({ onComplete }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#020617]"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#F4F7FC]"
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
-      transition={{ delay: 1.6, duration: 0.5 }}
+      transition={{ delay: 1.5, duration: 0.45 }}
       onAnimationComplete={onComplete}
     >
       <motion.div
-        className="relative h-16 w-16"
+        className="relative h-14 w-14"
         animate={{ rotate: 360 }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
       >
-        <div className="absolute inset-0 rounded-full border-2 border-cyan-500/20" />
-        <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.4)]" />
+        <div className="absolute inset-0 rounded-full border-2 border-[#D6E4F7]" />
+        <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#003087]" />
       </motion.div>
-      <motion.p
-        className="font-display mt-8 text-lg font-bold text-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.15 }}
-      >
-        IQRA Career Roadmap
-      </motion.p>
-      <motion.p
-        className="font-accent mt-1 text-xs tracking-[0.25em] text-cyan-500/80 uppercase"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.35 }}
-      >
-        M9 Campus
-      </motion.p>
+      <p className="mt-6 text-lg font-extrabold text-[#003087]">IQRA Career Roadmap</p>
+      <p className="mt-1 text-xs font-semibold tracking-[0.12em] text-[#0066CC] uppercase">M9 Campus</p>
     </motion.div>
   );
 }

@@ -4,11 +4,24 @@ import { getDegreeById, getSpecialization } from '../data/programsData';
 import { useJourney } from '../context/JourneyContext';
 import SectionHeader from './SectionHeader';
 
+const ROLE_DESCRIPTIONS = {
+  'Cloud Intern':
+    "Start your cloud journey with hands-on AWS/Azure exposure in local tech startups and enterprise IT teams.",
+  'Cloud Engineer':
+    "Design and manage scalable infrastructure for Pakistan's growing fintech and e-commerce sector.",
+  'Solutions Architect':
+    'Lead enterprise-level cloud transformations at top-tier firms and MNCs across Pakistan.',
+};
+
 function demandPercent(demand) {
   if (demand.includes('Very')) return 92;
   if (demand.includes('High')) return 78;
   if (demand.includes('Growing') || demand.includes('Emerging')) return 65;
   return 55;
+}
+
+function getRoleDescription(role, fallback) {
+  return ROLE_DESCRIPTIONS[role] || fallback;
 }
 
 export default function CareerGuidance() {
@@ -26,7 +39,7 @@ export default function CareerGuidance() {
         demand: spec.industryDemand,
         demandPct: demandPercent(spec.industryDemand),
         skills: spec.skills.slice(0, 4),
-        growth: spec.futureScope,
+        description: getRoleDescription(role, spec.futureScope),
         salaryRange:
           i === 0
             ? `PKR ${salary?.fresh.min.toLocaleString()} – ${salary?.fresh.max.toLocaleString()}`
@@ -42,100 +55,108 @@ export default function CareerGuidance() {
     scrollRef.current?.children[next]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   };
 
+  const levelBadgeClass = (level) => {
+    if (level === 'Entry') return 'badge-entry';
+    if (level === 'Senior') return 'badge-senior';
+    return 'badge-growth';
+  };
+
   return (
-    <section id="careers" className="relative overflow-hidden py-24 sm:py-32">
+    <section id="careers" className="section-pad bg-[#F4F7FC]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
           badge="Careers"
           title="Career opportunities"
-          subtitle="Premium role cards with demand, skills, salary bands, and growth outlook"
+          subtitle="Role cards with demand, skills, salary bands, and growth outlook"
         />
 
         {!spec ? (
-          <div className="glass rounded-2xl py-16 text-center text-slate-400">
-            Select a specialization to explore career paths
-          </div>
+          <div className="card py-16 text-center text-[#4A5568]">Select a specialization to explore career paths</div>
         ) : (
           <>
             <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-slate-400">
-                Track: <span className="font-medium text-cyan-400">{spec.name}</span>
+              <p className="text-sm text-[#4A5568]">
+                Track: <span className="font-semibold text-[#003087]">{spec.name}</span>
               </p>
               <div className="flex gap-2">
-                <button type="button" onClick={() => scroll(-1)} className="glass rounded-lg px-3 py-2 text-sm text-slate-400 hover:text-white" disabled={index === 0}>
+                <button type="button" onClick={() => scroll(-1)} className="btn-arrow" disabled={index === 0}>
                   ←
                 </button>
-                <button type="button" onClick={() => scroll(1)} className="glass rounded-lg px-3 py-2 text-sm text-slate-400 hover:text-white" disabled={index >= cards.length - 1}>
+                <button type="button" onClick={() => scroll(1)} className="btn-arrow" disabled={index >= cards.length - 1}>
                   →
                 </button>
               </div>
             </div>
 
-            <div
-              ref={scrollRef}
-              className="scrollbar-hide flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4"
-            >
-              {cards.map((card, i) => (
-                <motion.div
-                  key={card.role}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="glass-strong neon-border w-[min(100%,340px)] shrink-0 snap-center rounded-2xl p-6 sm:w-[360px]"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="rounded-full bg-cyan-500/15 px-2.5 py-0.5 text-[10px] font-bold uppercase text-cyan-400">
+            <div ref={scrollRef} className="scrollbar-hide flex snap-x gap-5 overflow-x-auto pb-4">
+              {cards.map((card, i) => {
+                const veryHigh = card.demand.includes('Very');
+                return (
+                  <motion.div
+                    key={card.role}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className={`w-[min(100%,340px)] shrink-0 snap-center rounded-2xl border bg-white p-6 sm:w-[360px] transition-all ${
+                      i === index
+                        ? 'border-2 border-[#003087] shadow-[0_8px_32px_rgba(0,48,135,0.15)] border-l-[5px]'
+                        : 'border border-[#D6E4F7]'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase ${veryHigh ? 'badge-very-high' : 'badge-high'}`}>
+                        {card.demand} demand
+                      </span>
+                      <span className="text-xs text-[#4A5568]">
+                        {i + 1}/{cards.length}
+                      </span>
+                    </div>
+                    <span className={`mt-3 inline-block rounded-md px-2 py-0.5 text-[10px] font-bold uppercase ${levelBadgeClass(card.level)}`}>
                       {card.level}
                     </span>
-                    <span className="text-xs text-slate-500">{i + 1}/{cards.length}</span>
-                  </div>
-                  <h3 className="font-display mt-4 text-xl font-bold text-white">{card.role}</h3>
-                  <p className="mt-2 text-sm text-cyan-400/90">{card.salaryRange} / mo</p>
+                    <h3 className="mt-1 text-xl font-extrabold text-[#003087]">{card.role}</h3>
+                    <p className="mt-2 text-sm font-extrabold text-[#003087]">{card.salaryRange} / month</p>
 
-                  <div className="mt-5">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-slate-500">Industry demand</span>
-                      <span className="font-semibold text-emerald-400">{card.demand}</span>
+                    <div className="mt-5">
+                      <div className="flex justify-between text-xs text-[#4A5568]">
+                        <span>Industry demand</span>
+                        <span className="font-semibold text-[#003087]">{card.demandPct}%</span>
+                      </div>
+                      <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#D6E4F7]">
+                        <motion.div
+                          className="h-full rounded-full progress-bar-blue"
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${card.demandPct}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.8 }}
+                        />
+                      </div>
                     </div>
-                    <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-800">
-                      <motion.div
-                        className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${card.demandPct}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.9 }}
-                      />
+
+                    <p className="mt-4 text-sm leading-relaxed text-[#4A5568]">{card.description}</p>
+
+                    <p className="mt-5 text-xs font-semibold uppercase text-[#4A5568]">Required skills</p>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {card.skills.map((s) => (
+                        <span key={s} className="chip-subject rounded-md px-2 py-1 text-xs">
+                          {s}
+                        </span>
+                      ))}
                     </div>
-                  </div>
-
-                  <p className="mt-5 text-xs font-semibold uppercase text-slate-500">Required skills</p>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {card.skills.map((s) => (
-                      <span key={s} className="rounded-md bg-slate-800/80 px-2 py-1 text-xs text-slate-300">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-
-                  <p className="mt-4 text-xs leading-relaxed text-slate-400 line-clamp-3">{card.growth}</p>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="glass mt-8 rounded-2xl p-6"
-            >
-              <p className="text-xs font-semibold uppercase tracking-wider text-cyan-400">Full career ladder</p>
-              <div className="mt-4 flex flex-wrap items-center gap-2">
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="card mt-8 p-6">
+              <p className="section-label">Full career ladder</p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
                 {spec.jobs.map((job, i) => (
                   <div key={job} className="flex items-center gap-2">
-                    <span className="rounded-lg border border-cyan-500/20 bg-cyan-500/5 px-3 py-2 text-sm font-medium text-white">
+                    <span className="rounded-lg border border-[#D6E4F7] bg-[#EBF3FF] px-3 py-2 text-sm font-medium text-[#0A0A1A]">
                       {job}
                     </span>
-                    {i < spec.jobs.length - 1 && <span className="text-cyan-600">→</span>}
+                    {i < spec.jobs.length - 1 && <span className="text-[#0066CC]">→</span>}
                   </div>
                 ))}
               </div>

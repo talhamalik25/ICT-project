@@ -143,7 +143,7 @@ export const degrees = [
     id: 'media',
     name: 'Media Science',
     icon: '🎬',
-    description: 'Creative storytelling across film, digital media, journalism, and advertising.',
+    description: "Mass communication, digital media production, and journalism for Pakistan's growing media industry.",
     color: 'from-purple-500 to-pink-600',
     semesters: [
       { semester: 1, courses: ['Introduction to Media', 'Visual Communication', 'English Composition', 'Pakistan Studies', 'Digital Literacy'] },
@@ -241,7 +241,7 @@ export const faqs = [
 ];
 
 /** Display order for degree cards */
-export const degreeDisplayOrder = ['bscs', 'ai-degree', 'ds-degree', 'cyber-degree', 'se', 'bba', 'media'];
+export const degreeDisplayOrder = ['bscs', 'ai-degree', 'media', 'cyber-degree', 'se', 'bba'];
 
 export function getOrderedDegrees() {
   return degreeDisplayOrder

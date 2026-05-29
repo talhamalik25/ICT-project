@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion';
 
-export default function CircularProgress({ value, label, sublabel, color = '#22d3ee', size = 128 }) {
+export default function CircularProgress({
+  value,
+  label,
+  sublabel,
+  color = '#F0A500',
+  size = 128,
+  light = false,
+}) {
   const stroke = 7;
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -15,7 +22,7 @@ export default function CircularProgress({ value, label, sublabel, color = '#22d
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="rgba(30,41,59,0.9)"
+            stroke={light ? 'rgba(255,255,255,0.15)' : '#D6E4F7'}
             strokeWidth={stroke}
           />
           <motion.circle
@@ -34,11 +41,15 @@ export default function CircularProgress({ value, label, sublabel, color = '#22d
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-xl font-bold text-white">{value}%</span>
+          <span className={`text-xl font-extrabold ${light ? 'text-white' : 'text-[#003087]'}`}>{value}%</span>
         </div>
       </div>
-      <p className="mt-3 text-center text-sm font-medium text-white">{label}</p>
-      {sublabel && <p className="text-center text-xs text-slate-500">{sublabel}</p>}
+      <p className={`mt-3 text-center text-sm font-semibold ${light ? 'text-white' : 'text-[#003087]'}`}>{label}</p>
+      {sublabel && (
+        <p className={`mt-1 max-w-[160px] text-center text-xs leading-snug ${light ? 'text-[#93C5FD]' : 'text-[#4A5568]'}`}>
+          {sublabel}
+        </p>
+      )}
     </div>
   );
 }

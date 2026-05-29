@@ -2,22 +2,31 @@ import { motion } from 'framer-motion';
 
 export default function MotivationCTA() {
   return (
-    <section className="relative py-20 sm:py-28">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative overflow-hidden rounded-3xl border border-cyan-500/20 p-10 text-center sm:p-14"
-        >
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-violet-600/10" />
-          <p className="font-accent relative text-lg italic text-slate-400">
+    <section
+      className="section-pad relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #003087, #0066CC)' }}
+    >
+      <div
+        className="pointer-events-none absolute -left-32 -top-32 h-64 w-64 rounded-full"
+        style={{ background: 'rgba(255,255,255,0.05)' }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -bottom-32 -right-32 h-80 w-80 rounded-full"
+        style={{ background: 'rgba(255,255,255,0.05)' }}
+        aria-hidden
+      />
+
+      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <blockquote className="text-lg italic text-white/80 sm:text-xl">
             &ldquo;Your future starts here — one roadmap, infinite possibilities.&rdquo;
-          </p>
-          <h2 className="font-display relative mt-6 text-3xl font-bold text-white sm:text-4xl">
-            Ready to <span className="gradient-text">Start Journey</span>?
-          </h2>
-          <a href="#degrees" className="btn-glow relative mt-8 inline-flex rounded-full px-8 py-3.5 text-sm font-semibold text-white">
+          </blockquote>
+          <h2 className="mt-8 text-3xl font-extrabold text-white sm:text-4xl">Ready to Start Your Journey?</h2>
+          <a
+            href="#degrees"
+            className="mt-8 inline-flex rounded-[10px] bg-[#F0A500] px-10 py-4 text-base font-bold text-[#0A0A1A] transition-all duration-250 hover:bg-[#FFD166]"
+          >
             Explore Programs
           </a>
         </motion.div>

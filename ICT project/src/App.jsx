@@ -1,19 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { JourneyProvider } from './context/JourneyContext';
 import LoadingScreen from './components/LoadingScreen';
-import GridOverlay from './components/ui/GridOverlay';
-import ParticlesBackground from './components/ParticlesBackground';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import DegreeSelection from './components/DegreeSelection';
-import SpecializationSelection from './components/SpecializationSelection';
-import RoadmapTimeline from './components/RoadmapTimeline';
-import CareerGuidance from './components/CareerGuidance';
-import InternshipGuidance from './components/InternshipGuidance';
-import SalaryInsights from './components/SalaryInsights';
-import FAQ from './components/FAQ';
-import MotivationCTA from './components/MotivationCTA';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import About from './pages/About';
+import Programs from './pages/Programs';
+import Contact from './pages/Contact';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -21,22 +23,16 @@ export default function App() {
   return (
     <JourneyProvider>
       {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
-      <div className="relative min-h-screen bg-[#020617]">
-        <GridOverlay />
-        <ParticlesBackground />
+      <ScrollToTop />
+      <div className="relative min-h-screen bg-[#F4F7FC]">
         <div className="relative z-10">
           <Navbar />
-          <main>
-            <Hero />
-            <DegreeSelection />
-            <SpecializationSelection />
-            <RoadmapTimeline />
-            <CareerGuidance />
-            <InternshipGuidance />
-            <SalaryInsights />
-            <FAQ />
-            <MotivationCTA />
-          </main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/programs" element={<Programs />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
           <Footer />
         </div>
       </div>

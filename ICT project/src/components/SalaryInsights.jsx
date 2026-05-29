@@ -4,35 +4,33 @@ import { useJourney } from '../context/JourneyContext';
 import SectionHeader from './SectionHeader';
 import CircularProgress from './ui/CircularProgress';
 
-function formatPKR(n) {
-  if (n >= 100000) return `${(n / 100000).toFixed(1)}L`;
-  return `${Math.round(n / 1000)}K`;
+function formatPKRFull(min, max) {
+  return `PKR ${min.toLocaleString()} – ${max.toLocaleString()} / month`;
 }
 
-function SalaryBar({ data, maxVal, gradient, delay }) {
+function SalaryBar({ data, maxVal, delay }) {
   const mid = (data.min + data.max) / 2;
   const width = (mid / maxVal) * 100;
   return (
     <motion.div
-      initial={{ opacity: 0, x: -16 }}
+      initial={{ opacity: 0, x: -12 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
       className="space-y-2"
     >
       <div className="flex justify-between text-sm">
-        <span className="font-medium text-slate-300">{data.label}</span>
-        <span className="text-cyan-400 font-mono text-xs sm:text-sm">
-          {data.min.toLocaleString()} – {data.max.toLocaleString()}
-        </span>
+        <span className="font-medium text-[#93C5FD]">{data.label}</span>
+        <span className="text-xs font-extrabold text-[#F0A500] sm:text-sm">{formatPKRFull(data.min, data.max)}</span>
       </div>
-      <div className="h-3 overflow-hidden rounded-full bg-slate-800/90">
+      <div className="h-3 overflow-hidden rounded-full bg-white/10">
         <motion.div
-          className={`h-full rounded-full bg-gradient-to-r ${gradient}`}
+          className="h-full rounded-full"
+          style={{ background: 'linear-gradient(90deg, #F0A500, #FFD166)' }}
           initial={{ width: 0 }}
           whileInView={{ width: `${width}%` }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: delay + 0.1 }}
+          transition={{ duration: 0.9, delay: delay + 0.1 }}
         />
       </div>
     </motion.div>
@@ -53,15 +51,18 @@ export default function SalaryInsights() {
   const maxVal = data.senior.max;
 
   const tiers = [
-    { key: 'fresh', data: data.fresh, pct: 35, color: '#22d3ee', gradient: 'from-cyan-500 to-teal-400' },
-    { key: 'mid', data: data.mid, pct: 62, color: '#3b82f6', gradient: 'from-blue-500 to-indigo-500' },
-    { key: 'senior', data: data.senior, pct: 88, color: '#a78bfa', gradient: 'from-violet-500 to-purple-500' },
+    { key: 'fresh', data: data.fresh, pct: 35 },
+    { key: 'mid', data: data.mid, pct: 62 },
+    { key: 'senior', data: data.senior, pct: 88 },
   ];
 
   return (
-    <section id="salary" className="relative py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_rgba(139,92,246,0.08),_transparent_60%)]" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      id="salary"
+      className="section-pad"
+      style={{ background: 'linear-gradient(135deg, #003087 0%, #001A5C 100%)' }}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
           badge="Compensation"
           title="Salary insights"
@@ -70,18 +71,19 @@ export default function SalaryInsights() {
               ? `Pakistan market estimates · ${degree.name}`
               : 'Estimated monthly PKR ranges — select a program for tailored data'
           }
+          light
         />
 
         <div className="grid gap-8 lg:grid-cols-2">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass-strong neon-border space-y-8 rounded-2xl p-6 sm:p-8"
+            className="space-y-8 rounded-2xl border border-white/15 bg-white/[0.08] p-6 sm:p-8"
           >
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Animated bar comparison</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-[#93C5FD]">Salary comparison</p>
             {tiers.map((t, i) => (
-              <SalaryBar key={t.key} data={t.data} maxVal={maxVal} gradient={t.gradient} delay={i * 0.1} />
+              <SalaryBar key={t.key} data={t.data} maxVal={maxVal} delay={i * 0.1} />
             ))}
           </motion.div>
 
@@ -89,17 +91,18 @@ export default function SalaryInsights() {
             {tiers.map((t, i) => (
               <motion.div
                 key={t.key}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="glass flex flex-col items-center rounded-2xl p-6"
+                className="flex flex-col items-center rounded-2xl border border-white/15 bg-white/[0.08] p-6"
               >
                 <CircularProgress
                   value={t.pct}
                   label={t.data.label}
-                  sublabel={`${formatPKR(t.data.min)} – ${formatPKR(t.data.max)} / mo`}
-                  color={t.color}
+                  sublabel={formatPKRFull(t.data.min, t.data.max)}
+                  color="#F0A500"
+                  light
                 />
               </motion.div>
             ))}
@@ -111,19 +114,18 @@ export default function SalaryInsights() {
             <motion.div
               key={t.key}
               whileHover={{ y: -4 }}
-              className="glass rounded-2xl p-5 text-center"
+              className="rounded-2xl border border-white/15 bg-white/[0.08] p-5 text-center transition-all duration-250"
             >
-              <p className="text-xs font-semibold uppercase text-slate-500">{t.data.label}</p>
-              <p className="font-display mt-2 text-2xl font-bold gradient-text">
-                {formatPKR(t.data.min)} – {formatPKR(t.data.max)}
+              <p className="text-xs font-semibold uppercase text-[#93C5FD]">{t.data.label}</p>
+              <p className="mt-2 text-xl font-extrabold text-[#F0A500] sm:text-2xl">
+                {formatPKRFull(t.data.min, t.data.max)}
               </p>
-              <p className="mt-1 text-xs text-slate-500">PKR per month · Pakistan</p>
             </motion.div>
           ))}
         </div>
 
-        <p className="mt-8 text-center text-xs text-slate-600">
-          Illustrative ranges for portfolio guidance — not official university or employer guarantees.
+        <p className="mt-8 text-center text-xs text-[#93C5FD]/80">
+          Illustrative ranges for guidance — not official university or employer guarantees.
         </p>
       </div>
     </section>

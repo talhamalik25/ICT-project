@@ -37,53 +37,46 @@ export default function InternshipGuidance() {
     'Target companies list (10+)',
   ];
 
-  const toggleCheck = (item) => {
-    setChecked((c) => ({ ...c, [item]: !c[item] }));
-  };
-
+  const toggleCheck = (item) => setChecked((c) => ({ ...c, [item]: !c[item] }));
   const done = Object.values(checked).filter(Boolean).length;
 
   return (
-    <section id="internship" className="relative py-24 sm:py-32">
+    <section id="internship" className="section-pad bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
           badge="Internship Guide"
           title="Internship guidance"
-          subtitle="Practical step-by-step preparation — timeline, skills, resume, and remote opportunities"
+          subtitle="Step-by-step preparation — timeline, skills, resume, and remote opportunities"
         />
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-strong neon-border mb-10 flex flex-col items-center justify-between gap-4 rounded-2xl p-6 sm:flex-row sm:p-8"
+          className="mb-10 flex flex-col items-center justify-between gap-4 rounded-2xl p-6 text-white sm:flex-row sm:p-8"
+          style={{ background: 'linear-gradient(135deg, #003087, #0066CC)' }}
         >
           <div>
-            <p className="text-xs font-bold tracking-widest text-cyan-400 uppercase">Best semester to apply</p>
-            <p className="font-display mt-1 text-3xl font-bold text-white">{data.bestSemester}</p>
+            <p className="text-xs font-bold tracking-[0.12em] text-white/80 uppercase">Best semester to apply</p>
+            <p className="mt-1 text-3xl font-extrabold">{data.bestSemester}</p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-full border-2 border-cyan-500/40 flex items-center justify-center font-display font-bold text-cyan-400">
-              6–7
-            </div>
-            <p className="max-w-[200px] text-sm text-slate-400">
-              {degree ? `Recommended for ${degree.name}` : 'Typical across programs'}
-            </p>
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 text-lg font-extrabold">
+            6–7
           </div>
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             <div className="flex flex-wrap gap-2">
               {steps.map((step, i) => (
                 <button
                   key={step.key}
                   type="button"
                   onClick={() => setActiveStep(i)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+                  className={`rounded-lg px-4 py-2 text-xs font-bold transition-all duration-250 cursor-pointer ${
                     activeStep === i
-                      ? 'bg-cyan-500/20 text-cyan-300 ring-1 ring-cyan-500/40'
-                      : 'glass text-slate-400 hover:text-white'
+                      ? 'bg-[#003087] text-white'
+                      : 'bg-[#EBF3FF] text-[#003087] hover:bg-[#D6E4F7]'
                   }`}
                 >
                   {step.icon} {step.title}
@@ -91,76 +84,51 @@ export default function InternshipGuidance() {
               ))}
             </div>
 
-            <motion.div
-              key={activeStep}
-              initial={{ opacity: 0, x: 12 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="glass-strong rounded-2xl p-6 sm:p-8"
-            >
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/15 text-xl">
-                  {steps[activeStep].icon}
-                </span>
-                <div>
-                  <p className="text-xs text-slate-500">Step {activeStep + 1} of {steps.length}</p>
-                  <h3 className="font-display text-lg font-semibold text-white">{steps[activeStep].title}</h3>
-                </div>
-              </div>
+            <motion.div key={activeStep} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} className="card p-6 sm:p-8">
+              <p className="text-xs text-[#4A5568]">Step {activeStep + 1} of {steps.length}</p>
+              <h3 className="mt-1 text-lg font-bold text-[#003087]">{steps[activeStep].title}</h3>
               <ul className="mt-6 space-y-3">
                 {data[steps[activeStep].field]?.map((item, i) => (
-                  <motion.li
-                    key={item}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="flex gap-3 rounded-xl bg-slate-900/40 px-4 py-3 text-sm text-slate-300"
-                  >
-                    <span className="font-bold text-cyan-500">{String(i + 1).padStart(2, '0')}</span>
+                  <li key={item} className="flex gap-3 rounded-lg border border-[#D6E4F7] bg-[#F4F7FC] px-4 py-3 text-sm text-[#4A5568]">
+                    <span className="font-extrabold text-[#0066CC]">{String(i + 1).padStart(2, '0')}</span>
                     {item}
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </motion.div>
-
-            <div className="hidden sm:flex items-center justify-between gap-2 pt-2">
-              {steps.map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-1 flex-1 rounded-full transition ${i <= activeStep ? 'timeline-line' : 'bg-slate-800'}`}
-                />
-              ))}
-            </div>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="glass neon-border rounded-2xl p-6"
+            className="rounded-2xl border border-[#D6E4F7] bg-[#F4F7FC] p-6"
           >
-            <div className="flex items-center justify-between">
-              <h3 className="font-display font-semibold text-white">Prep checklist</h3>
-              <span className="text-sm text-cyan-400">
+            <h3 className="font-bold text-[#003087]">Prep checklist</h3>
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-sm text-[#4A5568]">Progress</span>
+              <span className="text-sm font-semibold text-[#003087]">
                 {done}/{checklist.length}
               </span>
             </div>
-            <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-800">
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#D6E4F7]">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-500"
+                className="h-full rounded-full progress-bar-blue"
                 animate={{ width: `${(done / checklist.length) * 100}%` }}
               />
             </div>
             <ul className="mt-5 space-y-2">
               {checklist.map((item) => (
                 <li key={item}>
-                  <label className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/5">
+                  <label className="flex cursor-pointer items-center gap-3 rounded-lg py-2 transition-all hover:bg-[#EBF3FF]">
                     <input
                       type="checkbox"
                       checked={!!checked[item]}
                       onChange={() => toggleCheck(item)}
-                      className="h-4 w-4 rounded border-slate-600 bg-slate-900 text-cyan-500 focus:ring-cyan-500/50"
+                      className="h-4 w-4 rounded border-2 border-[#D6E4F7] text-[#003087] focus:ring-[#003087]"
+                      style={{ accentColor: '#003087' }}
                     />
-                    <span className={`text-sm ${checked[item] ? 'text-slate-500 line-through' : 'text-slate-300'}`}>
+                    <span className={`text-sm ${checked[item] ? 'text-[#4A5568] line-through' : 'text-[#0A0A1A] font-medium'}`}>
                       {item}
                     </span>
                   </label>

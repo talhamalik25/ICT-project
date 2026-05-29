@@ -15,21 +15,21 @@ const social = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-[#020617]/80">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <footer className="bg-[#001A5C] py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <a href="#hero" className="inline-flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 font-display text-sm font-bold text-white">
+              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#0066CC] text-sm font-extrabold text-white">
                 IQ
               </span>
               <div>
-                <p className="font-display font-bold text-white">IQRA Career Roadmap</p>
-                <p className="text-xs text-slate-500">Iqra University · M9 Campus</p>
+                <p className="font-extrabold text-white">IQRA Career Roadmap</p>
+                <p className="text-xs text-[#93C5FD]">Iqra University · M9 Campus</p>
               </div>
             </a>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-500">
-              Premium student guidance platform — degrees, roadmaps, careers, internships, and salary insights for new admissions.
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#93C5FD]">
+              Premium student guidance — degrees, roadmaps, careers, internships, and salary insights.
             </p>
             <div className="mt-6 flex gap-3">
               {social.map((s) => (
@@ -37,7 +37,7 @@ export default function Footer() {
                   key={s.name}
                   href={s.href}
                   aria-label={s.name}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl glass text-slate-400 transition hover:text-cyan-400 hover:shadow-lg hover:shadow-cyan-500/10"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-[#93C5FD] transition-all duration-250 hover:text-white"
                 >
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d={s.icon} />
@@ -48,11 +48,11 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Quick links</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-white">Quick links</p>
             <ul className="mt-4 space-y-2">
               {links.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="text-sm text-slate-400 transition hover:text-cyan-400">
+                  <a href={l.href} className="text-sm text-[#93C5FD] transition-all duration-250 hover:text-white">
                     {l.label}
                   </a>
                 </li>
@@ -61,24 +61,25 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Contact</p>
-            <ul className="mt-4 space-y-2 text-sm text-slate-400">
-              <li>M9 Campus, Islamabad</li>
+            <p className="text-xs font-bold uppercase tracking-wider text-white">Contact</p>
+            <ul className="mt-4 space-y-2 text-sm text-[#93C5FD]">
+              <li>M9 Campus, Karachi</li>
               <li>
-                <a href="mailto:admissions@iqra.edu.pk" className="hover:text-cyan-400">
+                <a href="mailto:admissions@iqra.edu.pk" className="transition-all duration-250 hover:text-white">
                   admissions@iqra.edu.pk
                 </a>
               </li>
-              <li>+92 (0)51 · Admissions Office</li>
+              <li>+92 (021) 111-264-264</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
-          <p className="text-xs text-slate-600">
-            © {new Date().getFullYear()} IQRA Career Roadmap · Frontend demo · All rights reserved
-          </p>
-          <p className="text-xs text-slate-600">Designed for portfolio & student guidance</p>
+        <div
+          className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 sm:flex-row"
+          style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+        >
+          <p className="text-xs text-[#64748B]">© {new Date().getFullYear()} IQRA Career Roadmap · Frontend demo</p>
+          <p className="text-xs text-[#64748B]">Iqra University M9 Campus</p>
         </div>
       </div>
     </footer>
